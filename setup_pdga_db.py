@@ -215,7 +215,7 @@ CREATE TABLE score(
     , FOREIGN KEY (result_id) REFERENCES event_result(result_id)
 )
 '''
-
+sql_execute(db_name, score_query, 'create')
 
 # Create player table?
     # PK player_id (pdgaNum)

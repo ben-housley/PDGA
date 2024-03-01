@@ -36,6 +36,61 @@ class Score:
         self.all_hole_scores = data["HoleScores"]
         self.layout = data["Layout"]
 
+        # Fields that will be filled out later
+        self.driving_hit = None
+        self.driving_opp = None
+        self.driving = None
+        self.c1_reg_hit = None
+        self.c1_reg_opp = None
+        self.c1_reg = None 
+        self.c2_reg_hit = None
+        self.c2_reg_opp = None
+        self.c2_reg = None 
+        self.parked_hit = None
+        self.parked_opp = None
+        self.parked = None 
+        self.scramble_hit = None
+        self.scramble_opp = None
+        self.scramble = None  
+        self.c1x_putt_hit = None
+        self.c1x_putt_opp = None
+        self.c1x_putt = None 
+        self.c2_putt_hit = None
+        self.c2_putt_opp = None
+        self.c2_putt = None 
+        self.ob_hit = None
+        self.ob_opp = None
+        self.ob = None 
+        self.birdie_hit = None
+        self.birdie_opp = None
+        self.birdie_rate = None 
+        self.bogey_hit = None
+        self.bogey_opp = None
+        self.bogey_rate = None 
+        self.double_bogey_plus_hit = None
+        self.double_bogey_plus_opp = None
+        self.double_bogey_plus_rate = None 
+        self.par_hit = None
+        self.par_opp = None
+        self.par_rate = None 
+        self.putting_total_dist = None  
+        self.putting_long_dist = None 
+        self.putting_avg_dist = None 
+        self.avg_strokes = None
+
+        self.sg_tee_to_green_rank = None
+        self.sg_tee_to_green_opp = None
+        self.sg_tee_to_green = None
+        self.sg_c1x_rank = None
+        self.sg_c1x_opp = None
+        self.sg_c1x = None
+        self.sg_c2_rank = None
+        self.sg_c2_opp = None
+        self.sg_c2 = None
+        self.sg_putting_rank = None
+        self.sg_putting_opp = None
+        self.sg_putting = None
+
         # Methods to call on assignment
         self.get_round_details()
         self.get_hole_breakdown()
@@ -74,11 +129,9 @@ class Score:
             with open ("./strokes_gained_{}.pickle".format(self.round_id), 'rb') as f:
                 strokes_gained = pickle.load(f)
         else: 
-            print(strokes_gained_path)
             strokes_gained = make_api_call_get(strokes_gained_path).json()
             with open("./strokes_gained_{}.pickle".format(self.round_id), 'wb') as f:
                 pickle.dump(strokes_gained, f)
-
         for player in strokes_gained:
             if player["score"]["scoreId"] != self.score_id:
                 continue
@@ -117,11 +170,9 @@ class Score:
                 #     self.unknown_opp = stat["statOpportunityCount"]
                 #     self.unknown = stat["statValue"]
 
-
     def get_round_stats(self):
         round_stats_path = round_stat_base.format(self.score_id)
         round_stats = make_api_call_get(round_stats_path).json()
-        print("Pulling stats for round {} for player: {}".format(self.round, self.player_name))
         for stat in round_stats:
             if stat["statId"] == 1:
                 self.driving_hit = stat["statCount"]

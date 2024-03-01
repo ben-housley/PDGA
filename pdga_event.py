@@ -15,21 +15,6 @@ import os
 # event_id = "77775" # 2024 Chess.com Florida
 db_name = "pdga_stats.db"
 events_to_update = ["77775"]
-# waco_2023 = Event.get_event_info("66457")
-# print(vars(waco_2023))
-
-# Open a file for writing in binary mode.
-# with open('waco.pickle', 'wb') as f:
-    # Pickle the data to the file.
-    # pickle.dump(waco_2023, f)
-
-# Open the file for reading in binary mode.
-# with open('waco.pickle', 'rb') as f:
-# # #     # Unpickle the data from the file.
-#     waco_2023 = pickle.load(f)
-
-# Print the loaded data.
-# print(vars(waco))
 
 def update_db(event_id):
     if os.path.isfile("./{}.pickle".format(event_id)):
