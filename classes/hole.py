@@ -1,7 +1,8 @@
 class Hole:
     def __init__(self, data):
+        # Initiated from Layout object
         # Mandatory Fields
-        self.name = data.get("Hole", None)
+        self.hole_num = data.get("Hole", None)
         self.label = data.get("Label", None)
         self.par = data.get("Par", None)
         self.length = data.get("Length", None)

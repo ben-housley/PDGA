@@ -1,16 +1,17 @@
 from classes.division import Division
 from classes.layout import Layout
 from classes.round import Round
+from classes.result import Result
 from utilities.api_call import make_api_call_get
 
-event_id = "78651"
-event_base = "https://www.pdga.com/apps/tournament/live-api/live_results_fetch_event?TournID="
+# event_id = "78651"
+event_base = "https://www.pdga.com/apps/tournament/live-api/live_results_fetch_event?TournID={}" # Insert Tournament ID (Event ID)
 
 
 class Event:
     def __init__(self, data):
         # Mandatory Fields
-        self.id = data["TournamentId"]
+        self.event_id = data["TournamentId"]
         self.start_date = data["StartDate"]
         self.end_data = data["EndDate"]
         self.total_players = data["TotalPlayers"]
@@ -34,12 +35,13 @@ class Event:
 
         self.get_divisions()
         self.get_mpo_rounds()
+        self.get_results()
         # self.get_layouts()
 
     def get_divisions(self):
         self.divisions = []
         for division in self.all_divisions:
-            self.divisions.append(Division(division))
+            self.divisions.append(Division(division, self.event_id))
 
     def get_layouts(self):
         self.layouts = []
@@ -49,11 +51,15 @@ class Event:
     def get_mpo_rounds(self):
         self.rounds = []
         for i in range(1, self.highest_completed_round + 1):
-            print(i)
-            self.rounds.append(Round.get_round_info(self.id, "MPO", i))
+            self.rounds.append(Round.get_round_info(self.event_id, "MPO", i))
+
+    def get_results(self):
+        self.results = []
+        for score in self.rounds[self.highest_completed_round-1].all_scores:
+            self.results.append(Result.get_result_info(score["ResultID"]))
+
 
     def get_event_info(event_id):
-        event_path = event_base + event_id
+        event_path = event_base.format(event_id)
         response = make_api_call_get(event_path).json()
         return Event(response["data"])
-

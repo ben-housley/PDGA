@@ -2,9 +2,11 @@ from classes.hole import Hole
 
 class Layout:
     def __init__(self, data):
+        # Initiated from Round object
         # Mandatory Fields
-        self.id = data["LayoutID"]
+        self.layout_id = data["LayoutID"]
         self.course_id = data["CourseID"]
+        self.event_id = data["TournID"]
         self.course_name = data["CourseName"]
         self.name = data["Name"]
         self.num_holes = data["Holes"]
@@ -25,6 +27,6 @@ class Layout:
         self.holes = []
         for hole in self.details:
             details = hole
-            details["layout_id"] = self.id
+            details["layout_id"] = self.layout_id
             details["course_id"] = self.course_id
             self.holes.append(Hole(details))
