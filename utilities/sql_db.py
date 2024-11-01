@@ -11,7 +11,9 @@ def sql_execute(db_name = "pdga_stats.db", query = '''SELECT * FROM INFORMATION'
     if result == 'insert':
         results = conn.commit()
     elif result == 'fetch':
+        column_names = [description[0] for description in cursor.description]
         results = cursor.fetchall()
+        results = [tuple(column_names)] + results
     conn.close()
     return results
     

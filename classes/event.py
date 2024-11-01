@@ -23,6 +23,8 @@ class Event:
         self.highest_completed_round = data["HighestCompletedRound"]
         self.latest_round = data["LatestRound"]
         self.final_round = data["FinalRound"]
+        self.num_rounds = data["Rounds"]
+        self.is_semis = data["Semis"]
         self.tier = data["Tier"]
 
         # Calculated Fields
@@ -50,12 +52,16 @@ class Event:
 
     def get_mpo_rounds(self):
         self.rounds = []
-        for i in range(1, self.highest_completed_round + 1):
+        for i in range(1, self.num_rounds + 1):
             self.rounds.append(Round.get_round_info(self.event_id, "MPO", i))
+        if self.has_finals == "yes":
+            self.rounds.append(Round.get_round_info(self.event_id, "MPO", self.final_round))
 
     def get_results(self):
         self.results = []
-        for score in self.rounds[self.highest_completed_round-1].all_scores:
+        if self.has_finals:
+            self.num_rounds += 1
+        for score in self.rounds[self.num_rounds-1].all_scores:
             self.results.append(Result.get_result_info(score["ResultID"]))
 
 

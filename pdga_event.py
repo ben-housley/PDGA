@@ -8,13 +8,13 @@ import os
     # TODO: Include a loading bar when loading a new tournament's data
 # TODO: Set up Sanic server w/ endpoints to interact with my DB (Robust backend)
 # TODO: Identify what queries I want users to run against my DB? What data to display? What adds value beyond what PDGA has?
-# TODO: Fix the scores class - it's not updating properly and last I ran it, there wasn't a score table?
+# TODO: Potentially convert my sqlite3 db to a mysql db?
 
 # event_id = "78651" # 2024 All-Stars
 # event_id = "66457" # 2023 WACO
 # event_id = "77775" # 2024 Chess.com Florida
 db_name = "pdga_stats.db"
-events_to_update = ["77775"]
+events_to_update = ["66457"]
 
 def update_db(event_id):
     if os.path.isfile("./{}.pickle".format(event_id)):
